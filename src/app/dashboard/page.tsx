@@ -2,6 +2,10 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { logout } from "@/app/actions/auth";
+import { getTransactions } from "@/app/actions/transactions";
+import SummaryCards from "@/components/SummaryCards";
+import RecentTransactions from "@/components/RecentTransactions";
+import { ArrowRight, Plus } from "lucide-react";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -13,54 +17,69 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
+  // Ambil transaksi asli dari Supabase untuk user aktif
+  const transactions = await getTransactions();
+
+  // Hitung ringkasan finansial
+  const totalIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const totalExpense = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const currentBalance = totalIncome - totalExpense;
+
   return (
-    <div className="min-h-screen bg-background font-body p-8">
-      <div className="max-w-[1000px] mx-auto bg-surface border border-border rounded-xl p-8 shadow-sm">
-        <div className="flex justify-between items-center mb-8 border-b border-border pb-4">
-          <h1 className="font-display text-[24px] font-bold tracking-[-0.03em] text-content-primary">
-            Dashboard Keuangan
-          </h1>
+    <div className="min-h-screen bg-background font-body p-6 sm:p-8">
+      <div className="max-w-[1000px] mx-auto space-y-8">
+        {/* Header Dashboard & User Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-surface border border-border rounded-xl p-6 shadow-sm">
+          <div>
+            <span className="text-[12px] font-semibold tracking-wider uppercase text-content-muted">
+              Ikhtisar Keuangan Pribadi
+            </span>
+            <h1 className="font-display text-[26px] sm:text-[30px] font-bold tracking-[-0.03em] text-content-primary mt-1">
+              Halo, {user.user_metadata?.full_name || user.email?.split("@")[0]}
+            </h1>
+            <p className="text-[14px] text-content-secondary mt-1">
+              Pantau arus kas, ringkasan saldo, dan mutasi transaksi keuangan Anda.
+            </p>
+          </div>
 
-          <form action={logout}>
-            <button
-              type="submit"
-              className="bg-transparent border border-border text-content-primary hover:-translate-y-[1px] rounded-md font-medium px-4 py-[8px] text-[14px] transition-all"
+          <div className="flex items-center gap-3 shrink-0">
+            <Link
+              href="/dashboard/transactions"
+              className="inline-flex items-center gap-2 bg-[#6366F1] hover:bg-[#4F46E5] text-white px-4 py-2.5 rounded-md font-medium text-sm transition-all shadow-sm hover:-translate-y-[1px]"
             >
-              Log out
-            </button>
-          </form>
+              <Plus className="w-4 h-4" />
+              <span>Kelola Transaksi</span>
+            </Link>
+
+            <form action={logout}>
+              <button
+                type="submit"
+                className="bg-transparent border border-border text-content-secondary hover:text-content-primary hover:bg-surface rounded-md font-medium px-4 py-2 text-sm transition-all"
+              >
+                Log out
+              </button>
+            </form>
+          </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 pt-6 border-t border-border">
-          <p className="text-content-secondary text-[15px]">
-            Selamat datang,{" "}
-            <strong className="text-content-primary">
-              {user.user_metadata?.full_name || user.email}
-            </strong>
-            !
-          </p>
+        {/* 3 Summary Cards: Saldo Saat Ini, Total Pemasukan, Total Pengeluaran */}
+        <SummaryCards
+          currentBalance={currentBalance}
+          totalIncome={totalIncome}
+          totalExpense={totalExpense}
+        />
 
-          <Link
-            href="/dashboard/transactions"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-md font-medium text-sm transition-all shadow-glow hover:-translate-y-[1px]"
-          >
-            <span>Kelola Transaksi</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
-        </div>
+        {/* 5 Transaksi Terbaru */}
+        <RecentTransactions
+          transactions={transactions}
+          viewAllHref="/dashboard/transactions"
+        />
       </div>
     </div>
   );
