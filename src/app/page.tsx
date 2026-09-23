@@ -1,91 +1,197 @@
-import { CheckCircle2, Code2, ShieldCheck, Wallet } from "lucide-react";
+import {
+  Wallet,
+  ArrowUpRight,
+  ArrowDownRight,
+  Plus,
+  ShieldCheck,
+  Filter,
+  CreditCard,
+  TrendingUp,
+} from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col items-center justify-center p-6">
-      <main className="max-w-3xl w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm space-y-8">
-        {/* Header */}
-        <div className="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-6">
-          <div className="p-3 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl">
-            <Wallet className="w-8 h-8" />
+    <div className="space-y-8 animate-in fade-in duration-300">
+      {/* Top Banner / Welcome Section */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#E8E8EC] dark:border-[#26262A]">
+        <div>
+          <span className="text-[11px] font-semibold tracking-wider uppercase text-[#6B6B6B] dark:text-[#9C9C9C]">
+            Overview Keuangan
+          </span>
+          <h1 className="text-[32px] font-['General_Sans',sans-serif] font-bold tracking-[-0.03em] text-[#0A0A0A] dark:text-[#FAFAFA] mt-1">
+            Selamat Datang, Advan
+          </h1>
+          <p className="text-[14px] text-[#6B6B6B] dark:text-[#9C9C9C] mt-1">
+            Pantau arus kas, mutasi pengeluaran, dan preferensi akun Anda.
+          </p>
+        </div>
+
+        {/* Primary Action Button (Genesis specs: 6px radius, indigo fill, hover lift) */}
+        <div>
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-[6px] bg-[#6366F1] hover:bg-[#4F46E5] text-white text-[14px] font-medium transition-all duration-150 hover:-translate-y-[1px] hover:shadow-[0_4px_12px_rgba(99,102,241,0.35)] active:translate-y-0"
+          >
+            <Plus className="w-4 h-4" />
+            Tambah Transaksi
+          </button>
+        </div>
+      </div>
+
+      {/* Summary Cards Grid (FR-2: Saldo, Pemasukan, Pengeluaran) */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Total Saldo Card */}
+        <div className="rounded-[12px] bg-white dark:bg-[#141416] border border-[#E8E8EC] dark:border-[#26262A] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+          <div className="flex items-center justify-between text-[#6B6B6B] dark:text-[#9C9C9C]">
+            <span className="text-[13px] font-medium">Saldo Saat Ini</span>
+            <div className="w-8 h-8 rounded-[6px] bg-[#6366F1]/10 text-[#6366F1] flex items-center justify-center">
+              <Wallet className="w-4 h-4" />
+            </div>
           </div>
+          <div className="mt-4">
+            <span className="font-['JetBrains_Mono',monospace] text-[28px] font-bold tracking-tight text-[#0A0A0A] dark:text-[#FAFAFA]">
+              Rp 4.750.000
+            </span>
+          </div>
+          <div className="mt-2 flex items-center gap-1.5 text-[12px] text-[#10B981]">
+            <TrendingUp className="w-3.5 h-3.5" />
+            <span>Kondisi keuangan stabil</span>
+          </div>
+        </div>
+
+        {/* Total Pemasukan Card */}
+        <div className="rounded-[12px] bg-white dark:bg-[#141416] border border-[#E8E8EC] dark:border-[#26262A] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+          <div className="flex items-center justify-between text-[#6B6B6B] dark:text-[#9C9C9C]">
+            <span className="text-[13px] font-medium">Total Pemasukan</span>
+            <div className="w-8 h-8 rounded-[6px] bg-[#10B981]/10 text-[#10B981] flex items-center justify-center">
+              <ArrowDownRight className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="mt-4">
+            <span className="font-['JetBrains_Mono',monospace] text-[28px] font-bold tracking-tight text-[#10B981]">
+              +Rp 6.500.000
+            </span>
+          </div>
+          <div className="mt-2 text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
+            Bulan ini (September 2026)
+          </div>
+        </div>
+
+        {/* Total Pengeluaran Card */}
+        <div className="rounded-[12px] bg-white dark:bg-[#141416] border border-[#E8E8EC] dark:border-[#26262A] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+          <div className="flex items-center justify-between text-[#6B6B6B] dark:text-[#9C9C9C]">
+            <span className="text-[13px] font-medium">Total Pengeluaran</span>
+            <div className="w-8 h-8 rounded-[6px] bg-[#EF4444]/10 text-[#EF4444] flex items-center justify-center">
+              <ArrowUpRight className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="mt-4">
+            <span className="font-['JetBrains_Mono',monospace] text-[28px] font-bold tracking-tight text-[#EF4444]">
+              -Rp 1.750.000
+            </span>
+          </div>
+          <div className="mt-2 text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
+            Bulan ini (September 2026)
+          </div>
+        </div>
+      </div>
+
+      {/* Filter Chips & Recent Transactions (Genesis gallery-frame cards & chips) */}
+      <div className="rounded-[12px] bg-white dark:bg-[#141416] border border-[#E8E8EC] dark:border-[#26262A] p-6 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">
-              Expense Tracker — Praktikum PPK
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Workspace &amp; Tech Stack Next.js telah siap untuk tim pengembang.
+            <h2 className="font-['General_Sans',sans-serif] text-[18px] font-bold tracking-[-0.02em] text-[#0A0A0A] dark:text-[#FAFAFA]">
+              Transaksi Terbaru
+            </h2>
+            <p className="text-[13px] text-[#6B6B6B] dark:text-[#9C9C9C]">
+              Mutasi 5 transaksi terakhir dari akun Anda
             </p>
           </div>
-        </div>
 
-        {/* Tech Stack Badges */}
-        <div className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-            Tech Stack Configured
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-            <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800/60 flex items-center gap-2">
-              <Code2 className="w-4 h-4 text-blue-500" />
-              <span className="font-medium">Next.js 16 (App Router)</span>
-            </div>
-            <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800/60 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-sky-500" />
-              <span className="font-medium">TypeScript</span>
-            </div>
-            <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800/60 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-teal-500" />
-              <span className="font-medium">Tailwind CSS</span>
-            </div>
-            <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800/60 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-indigo-500" />
-              <span className="font-medium">Lucide Icons</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Scope & Checklist for Developers */}
-        <div className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-            Checklist Fitur (Untuk Tim Developer)
-          </h2>
-          <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Autentikasi:</strong> Registrasi (nama, email, password) &amp; Login (email &amp; password).</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Session &amp; Cookies:</strong> Pertahankan session aktif dan gunakan cookies untuk minimal 1 preferensi pengguna.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Route Protection &amp; Logout:</strong> Lindungi halaman dashboard dari akses tanpa autentikasi, serta tombol logout.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Dashboard:</strong> Menampilkan nama pengguna, total saldo, total pemasukan &amp; pengeluaran, serta mutasi terbaru.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Manajemen Transaksi:</strong> Tambah, lihat, ubah (edit), dan hapus transaksi.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Filter &amp; Isolasi Data:</strong> Filter berdasarkan jenis pemasukan/pengeluaran; pastikan setiap pengguna hanya dapat melihat dan mengelola data miliknya sendiri.</span>
-            </li>
-          </ul>
-        </div>
-
-        {/* Footer Note */}
-        <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>Silakan baca dokumentasi lengkap di file <code>README.md</code>.</p>
+          {/* Filter Chips (Genesis: rounded-full pill shape) */}
           <div className="flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Dev server siap dijalankan</span>
+            <button
+              type="button"
+              className="px-3 py-1 rounded-full text-[12px] font-medium bg-[#6366F1] text-white transition-colors"
+            >
+              Semua
+            </button>
+            <button
+              type="button"
+              className="px-3 py-1 rounded-full text-[12px] font-medium bg-[#E8E8EC]/70 dark:bg-[#26262A] text-[#6B6B6B] dark:text-[#9C9C9C] hover:text-[#0A0A0A] dark:hover:text-[#FAFAFA] transition-colors"
+            >
+              Pemasukan
+            </button>
+            <button
+              type="button"
+              className="px-3 py-1 rounded-full text-[12px] font-medium bg-[#E8E8EC]/70 dark:bg-[#26262A] text-[#6B6B6B] dark:text-[#9C9C9C] hover:text-[#0A0A0A] dark:hover:text-[#FAFAFA] transition-colors"
+            >
+              Pengeluaran
+            </button>
           </div>
         </div>
-      </main>
+
+        {/* Transaction List (Genesis List specs: stacked rows with 1px dividers, 12px x 16px padding) */}
+        <div className="divide-y divide-[#E8E8EC] dark:divide-[#26262A] border-t border-[#E8E8EC] dark:border-[#26262A]">
+          <div className="flex items-center justify-between py-3 px-2 hover:bg-[#FAFAFA] dark:hover:bg-[#1C1C1F] rounded-[6px] transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#10B981]/10 text-[#10B981] flex items-center justify-center text-xs">
+                ↓
+              </div>
+              <div>
+                <p className="text-[14px] font-medium text-[#0A0A0A] dark:text-[#FAFAFA]">
+                  Gaji Bulanan
+                </p>
+                <p className="text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
+                  22 Sep 2026 • Pendapatan
+                </p>
+              </div>
+            </div>
+            <span className="font-['JetBrains_Mono',monospace] text-[14px] font-semibold text-[#10B981]">
+              +Rp 5.000.000
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between py-3 px-2 hover:bg-[#FAFAFA] dark:hover:bg-[#1C1C1F] rounded-[6px] transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#EF4444]/10 text-[#EF4444] flex items-center justify-center text-xs">
+                ↑
+              </div>
+              <div>
+                <p className="text-[14px] font-medium text-[#0A0A0A] dark:text-[#FAFAFA]">
+                  Belanja Kebutuhan Bulanan
+                </p>
+                <p className="text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
+                  21 Sep 2026 • Belanja
+                </p>
+              </div>
+            </div>
+            <span className="font-['JetBrains_Mono',monospace] text-[14px] font-semibold text-[#EF4444]">
+              -Rp 750.000
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between py-3 px-2 hover:bg-[#FAFAFA] dark:hover:bg-[#1C1C1F] rounded-[6px] transition-colors">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#EF4444]/10 text-[#EF4444] flex items-center justify-center text-xs">
+                ↑
+              </div>
+              <div>
+                <p className="text-[14px] font-medium text-[#0A0A0A] dark:text-[#FAFAFA]">
+                  Langganan Internet &amp; Listrik
+                </p>
+                <p className="text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
+                  20 Sep 2026 • Utilitas
+                </p>
+              </div>
+            </div>
+            <span className="font-['JetBrains_Mono',monospace] text-[14px] font-semibold text-[#EF4444]">
+              -Rp 450.000
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
