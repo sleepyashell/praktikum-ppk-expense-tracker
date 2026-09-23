@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 import { ThemeProvider } from "@/context/ThemeContext";
-import Layout from "@/components/Layout";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -39,7 +38,7 @@ export default async function RootLayout({
     >
       <body className="min-h-full font-['DM_Sans',sans-serif] antialiased selection:bg-[#6366F1]/20 selection:text-[#6366F1]">
         <ThemeProvider initialTheme={initialTheme}>
-          <Layout>{children}</Layout>
+          {children}
         </ThemeProvider>
       </body>
     </html>
