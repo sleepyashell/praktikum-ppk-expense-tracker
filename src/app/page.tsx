@@ -1,7 +1,6 @@
-import {
-  Plus,
-} from "lucide-react";
+import { Plus } from "lucide-react";
 import SummaryCards from "@/components/SummaryCards";
+import RecentTransactions from "@/components/RecentTransactions";
 
 export default function Home() {
   return (
@@ -39,101 +38,8 @@ export default function Home() {
         totalExpense={1750000}
       />
 
-      {/* Filter Chips & Recent Transactions (Genesis gallery-frame cards & chips) */}
-      <div className="rounded-[12px] bg-white dark:bg-[#141416] border border-[#E8E8EC] dark:border-[#26262A] p-6 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h2 className="font-['General_Sans',sans-serif] text-[18px] font-bold tracking-[-0.02em] text-[#0A0A0A] dark:text-[#FAFAFA]">
-              Transaksi Terbaru
-            </h2>
-            <p className="text-[13px] text-[#6B6B6B] dark:text-[#9C9C9C]">
-              Mutasi 5 transaksi terakhir dari akun Anda
-            </p>
-          </div>
-
-          {/* Filter Chips (Genesis: rounded-full pill shape) */}
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="px-3 py-1 rounded-full text-[12px] font-medium bg-[#6366F1] text-white transition-colors"
-            >
-              Semua
-            </button>
-            <button
-              type="button"
-              className="px-3 py-1 rounded-full text-[12px] font-medium bg-[#E8E8EC]/70 dark:bg-[#26262A] text-[#6B6B6B] dark:text-[#9C9C9C] hover:text-[#0A0A0A] dark:hover:text-[#FAFAFA] transition-colors"
-            >
-              Pemasukan
-            </button>
-            <button
-              type="button"
-              className="px-3 py-1 rounded-full text-[12px] font-medium bg-[#E8E8EC]/70 dark:bg-[#26262A] text-[#6B6B6B] dark:text-[#9C9C9C] hover:text-[#0A0A0A] dark:hover:text-[#FAFAFA] transition-colors"
-            >
-              Pengeluaran
-            </button>
-          </div>
-        </div>
-
-        {/* Transaction List (Genesis List specs: stacked rows with 1px dividers, 12px x 16px padding) */}
-        <div className="divide-y divide-[#E8E8EC] dark:divide-[#26262A] border-t border-[#E8E8EC] dark:border-[#26262A]">
-          <div className="flex items-center justify-between py-3 px-2 hover:bg-[#FAFAFA] dark:hover:bg-[#1C1C1F] rounded-[6px] transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#10B981]/10 text-[#10B981] flex items-center justify-center text-xs">
-                ↓
-              </div>
-              <div>
-                <p className="text-[14px] font-medium text-[#0A0A0A] dark:text-[#FAFAFA]">
-                  Gaji Bulanan
-                </p>
-                <p className="text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
-                  22 Sep 2026 • Pendapatan
-                </p>
-              </div>
-            </div>
-            <span className="font-['JetBrains_Mono',monospace] text-[14px] font-semibold text-[#10B981]">
-              +Rp 5.000.000
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between py-3 px-2 hover:bg-[#FAFAFA] dark:hover:bg-[#1C1C1F] rounded-[6px] transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#EF4444]/10 text-[#EF4444] flex items-center justify-center text-xs">
-                ↑
-              </div>
-              <div>
-                <p className="text-[14px] font-medium text-[#0A0A0A] dark:text-[#FAFAFA]">
-                  Belanja Kebutuhan Bulanan
-                </p>
-                <p className="text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
-                  21 Sep 2026 • Belanja
-                </p>
-              </div>
-            </div>
-            <span className="font-['JetBrains_Mono',monospace] text-[14px] font-semibold text-[#EF4444]">
-              -Rp 750.000
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between py-3 px-2 hover:bg-[#FAFAFA] dark:hover:bg-[#1C1C1F] rounded-[6px] transition-colors">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#EF4444]/10 text-[#EF4444] flex items-center justify-center text-xs">
-                ↑
-              </div>
-              <div>
-                <p className="text-[14px] font-medium text-[#0A0A0A] dark:text-[#FAFAFA]">
-                  Langganan Internet &amp; Listrik
-                </p>
-                <p className="text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
-                  20 Sep 2026 • Utilitas
-                </p>
-              </div>
-            </div>
-            <span className="font-['JetBrains_Mono',monospace] text-[14px] font-semibold text-[#EF4444]">
-              -Rp 450.000
-            </span>
-          </div>
-        </div>
-      </div>
+      {/* Recent Transactions List Component (FR-2.3) */}
+      <RecentTransactions />
     </div>
   );
 }
