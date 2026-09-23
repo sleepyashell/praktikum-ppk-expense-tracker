@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Transaction, TransactionType } from "@/types";
 import TransactionModal, { TransactionFormData } from "./TransactionModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
@@ -115,12 +116,21 @@ export default function TransactionTable({
       ? transactions
       : transactions.filter((tx) => tx.type === filter);
 
+  const router = useRouter();
+
+  // ── Add handler ──
+  const handleAddSubmit = async (data: TransactionFormData) => {
+    await onAdd(data);
+    router.refresh();
+  };
+
   // ── Delete handler ──
   const handleConfirmDelete = async () => {
     if (!deleteTarget) return;
     setIsDeleting(true);
     try {
       await onDelete(deleteTarget.id);
+      router.refresh();
     } finally {
       setIsDeleting(false);
       setDeleteTarget(null);
@@ -131,6 +141,7 @@ export default function TransactionTable({
   const handleEditSubmit = async (data: TransactionFormData) => {
     if (!editTarget) return;
     await onEdit(editTarget.id, data);
+    router.refresh();
     setEditTarget(null);
   };
 
@@ -398,7 +409,7 @@ export default function TransactionTable({
         isOpen={addModalOpen}
         mode="add"
         onClose={() => setAddModalOpen(false)}
-        onSubmit={onAdd}
+        onSubmit={handleAddSubmit}
       />
 
       <TransactionModal
