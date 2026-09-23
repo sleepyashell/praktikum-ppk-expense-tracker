@@ -1,89 +1,94 @@
-import { CheckCircle2, Code2, ShieldCheck, Wallet } from "lucide-react";
+import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col items-center justify-center p-6">
-      <main className="max-w-3xl w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm space-y-8">
-        {/* Header */}
-        <div className="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-6">
-          <div className="p-3 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl">
-            <Wallet className="w-8 h-8" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">
-              Expense Tracker — Praktikum PPK
-            </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Workspace &amp; Tech Stack Next.js telah siap untuk tim pengembang.
-            </p>
-          </div>
+    <div className="min-h-screen bg-background font-body text-content-primary">
+      {/* Navigation: Sticky top nav dengan backdrop-blur, tinggi 56px, border bawah 1px[cite: 1] */}
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-surface/80 border-b border-border h-[56px] flex items-center justify-between px-6">
+        <div className="font-display font-bold text-[18px] tracking-[-0.03em] text-content-primary">
+          Expense Tracker
+        </div>
+        <div className="flex items-center gap-4">
+          {/* Ghost button style untuk Login[cite: 1] */}
+          <Link
+            href="/login"
+            className="text-[14px] font-medium text-content-secondary hover:text-content-primary transition-colors"
+          >
+            Sign in
+          </Link>
+          {/* Primary button style untuk Register[cite: 1] */}
+          <Link
+            href="/register"
+            className="bg-primary hover:bg-primary-hover text-white rounded-md font-medium px-4 py-[8px] text-[14px] transition-all hover:-translate-y-[1px] hover:shadow-glow"
+          >
+            Sign up
+          </Link>
+        </div>
+      </header>
+
+      {/* Main Content Area */}
+      <main className="max-w-[800px] mx-auto px-6 py-16">
+        <div className="mb-12">
+          <h1 className="font-display text-[48px] md:text-[60px] font-bold tracking-[-0.04em] leading-tight mb-4">
+            Kelola keuangan dengan{" "}
+            <span className="text-primary">presisi.</span>
+          </h1>
+          <p className="text-content-secondary text-[18px] max-w-[600px] leading-relaxed">
+            Praktikum PPK: Workspace & Tech Stack Next.js telah siap. Silakan
+            lanjutkan pengembangan fitur sesuai dengan checklist yang tersedia.
+          </p>
         </div>
 
-        {/* Tech Stack Badges */}
-        <div className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-            Tech Stack Configured
+        {/* Card Component dengan radius 12px dan border subtle[cite: 1] */}
+        <div className="bg-surface border border-border rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow duration-200">
+          <h2 className="font-display text-[24px] font-bold tracking-[-0.03em] mb-6 border-b border-border pb-4">
+            Checklist Fitur (Tim Developer)
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-            <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800/60 flex items-center gap-2">
-              <Code2 className="w-4 h-4 text-blue-500" />
-              <span className="font-medium">Next.js 16 (App Router)</span>
-            </div>
-            <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800/60 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-sky-500" />
-              <span className="font-medium">TypeScript</span>
-            </div>
-            <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800/60 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-teal-500" />
-              <span className="font-medium">Tailwind CSS</span>
-            </div>
-            <div className="p-3 rounded-lg bg-slate-100 dark:bg-slate-800/60 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-indigo-500" />
-              <span className="font-medium">Lucide Icons</span>
-            </div>
-          </div>
-        </div>
 
-        {/* Scope & Checklist for Developers */}
-        <div className="space-y-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-            Checklist Fitur (Untuk Tim Developer)
-          </h2>
-          <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Autentikasi:</strong> Registrasi (nama, email, password) &amp; Login (email &amp; password).</span>
+          {/* Stacked list layout[cite: 1] */}
+          <ul className="flex flex-col gap-4 text-[15px] text-content-secondary">
+            <li className="flex items-start gap-3">
+              <div className="mt-1 w-5 h-5 rounded-full bg-success/10 text-success flex items-center justify-center shrink-0">
+                ✓
+              </div>
+              <div>
+                <strong className="text-content-primary font-medium">
+                  Autentikasi:
+                </strong>{" "}
+                Registrasi (nama, email, password) & Login (email & password).
+              </div>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Session &amp; Cookies:</strong> Pertahankan session aktif dan gunakan cookies untuk minimal 1 preferensi pengguna.</span>
+            <li className="flex items-start gap-3">
+              <div className="mt-1 w-5 h-5 rounded-full bg-success/10 text-success flex items-center justify-center shrink-0">
+                ✓
+              </div>
+              <div>
+                <strong className="text-content-primary font-medium">
+                  Session & Route Protection:
+                </strong>{" "}
+                HTTP-only cookies, Middleware protection, dan Logout.
+              </div>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Route Protection &amp; Logout:</strong> Lindungi halaman dashboard dari akses tanpa autentikasi, serta tombol logout.</span>
+            <li className="flex items-start gap-3">
+              <div className="mt-1 w-5 h-5 rounded-full border border-border bg-background flex items-center justify-center shrink-0"></div>
+              <div>
+                <strong className="text-content-primary font-medium">
+                  Dashboard:
+                </strong>{" "}
+                Menampilkan nama pengguna, total saldo, total pemasukan &
+                pengeluaran.
+              </div>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Dashboard:</strong> Menampilkan nama pengguna, total saldo, total pemasukan &amp; pengeluaran, serta mutasi terbaru.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Manajemen Transaksi:</strong> Tambah, lihat, ubah (edit), dan hapus transaksi.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 inline-block w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex-shrink-0" />
-              <span><strong>Filter &amp; Isolasi Data:</strong> Filter berdasarkan jenis pemasukan/pengeluaran; pastikan setiap pengguna hanya dapat melihat dan mengelola data miliknya sendiri.</span>
+            <li className="flex items-start gap-3">
+              <div className="mt-1 w-5 h-5 rounded-full border border-border bg-background flex items-center justify-center shrink-0"></div>
+              <div>
+                <strong className="text-content-primary font-medium">
+                  Manajemen Transaksi:
+                </strong>{" "}
+                Tambah, lihat, ubah (edit), dan hapus transaksi.
+              </div>
             </li>
           </ul>
-        </div>
-
-        {/* Footer Note */}
-        <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>Silakan baca dokumentasi lengkap di file <code>README.md</code>.</p>
-          <div className="flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Dev server siap dijalankan</span>
-          </div>
         </div>
       </main>
     </div>
