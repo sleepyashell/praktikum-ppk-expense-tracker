@@ -10,7 +10,7 @@ import { TransactionFormData } from "@/components/TransactionModal";
  * Data terisolasi otomatis berdasarkan user.id dari session Supabase Auth.
  */
 export async function getTransactions(
-  filter?: "all" | "income" | "expense"
+  filter?: "all" | "income" | "expense",
 ): Promise<Transaction[]> {
   const supabase = await createClient();
   const {
@@ -94,7 +94,7 @@ export async function createTransaction(formData: TransactionFormData) {
  */
 export async function updateTransaction(
   id: string,
-  formData: TransactionFormData
+  formData: TransactionFormData,
 ) {
   const supabase = await createClient();
   const {
