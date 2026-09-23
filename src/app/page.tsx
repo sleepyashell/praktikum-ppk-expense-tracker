@@ -1,14 +1,7 @@
 import {
-  Wallet,
-  ArrowUpRight,
-  ArrowDownRight,
   Plus,
-  ShieldCheck,
-  Filter,
-  CreditCard,
-  TrendingUp,
 } from "lucide-react";
-import Link from "next/link";
+import SummaryCards from "@/components/SummaryCards";
 
 export default function Home() {
   return (
@@ -40,62 +33,11 @@ export default function Home() {
       </div>
 
       {/* Summary Cards Grid (FR-2: Saldo, Pemasukan, Pengeluaran) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Total Saldo Card */}
-        <div className="rounded-[12px] bg-white dark:bg-[#141416] border border-[#E8E8EC] dark:border-[#26262A] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-          <div className="flex items-center justify-between text-[#6B6B6B] dark:text-[#9C9C9C]">
-            <span className="text-[13px] font-medium">Saldo Saat Ini</span>
-            <div className="w-8 h-8 rounded-[6px] bg-[#6366F1]/10 text-[#6366F1] flex items-center justify-center">
-              <Wallet className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-4">
-            <span className="font-['JetBrains_Mono',monospace] text-[28px] font-bold tracking-tight text-[#0A0A0A] dark:text-[#FAFAFA]">
-              Rp 4.750.000
-            </span>
-          </div>
-          <div className="mt-2 flex items-center gap-1.5 text-[12px] text-[#10B981]">
-            <TrendingUp className="w-3.5 h-3.5" />
-            <span>Kondisi keuangan stabil</span>
-          </div>
-        </div>
-
-        {/* Total Pemasukan Card */}
-        <div className="rounded-[12px] bg-white dark:bg-[#141416] border border-[#E8E8EC] dark:border-[#26262A] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-          <div className="flex items-center justify-between text-[#6B6B6B] dark:text-[#9C9C9C]">
-            <span className="text-[13px] font-medium">Total Pemasukan</span>
-            <div className="w-8 h-8 rounded-[6px] bg-[#10B981]/10 text-[#10B981] flex items-center justify-center">
-              <ArrowDownRight className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-4">
-            <span className="font-['JetBrains_Mono',monospace] text-[28px] font-bold tracking-tight text-[#10B981]">
-              +Rp 6.500.000
-            </span>
-          </div>
-          <div className="mt-2 text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
-            Bulan ini (September 2026)
-          </div>
-        </div>
-
-        {/* Total Pengeluaran Card */}
-        <div className="rounded-[12px] bg-white dark:bg-[#141416] border border-[#E8E8EC] dark:border-[#26262A] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
-          <div className="flex items-center justify-between text-[#6B6B6B] dark:text-[#9C9C9C]">
-            <span className="text-[13px] font-medium">Total Pengeluaran</span>
-            <div className="w-8 h-8 rounded-[6px] bg-[#EF4444]/10 text-[#EF4444] flex items-center justify-center">
-              <ArrowUpRight className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-4">
-            <span className="font-['JetBrains_Mono',monospace] text-[28px] font-bold tracking-tight text-[#EF4444]">
-              -Rp 1.750.000
-            </span>
-          </div>
-          <div className="mt-2 text-[12px] text-[#6B6B6B] dark:text-[#9C9C9C]">
-            Bulan ini (September 2026)
-          </div>
-        </div>
-      </div>
+      <SummaryCards
+        currentBalance={4750000}
+        totalIncome={6500000}
+        totalExpense={1750000}
+      />
 
       {/* Filter Chips & Recent Transactions (Genesis gallery-frame cards & chips) */}
       <div className="rounded-[12px] bg-white dark:bg-[#141416] border border-[#E8E8EC] dark:border-[#26262A] p-6 space-y-6">
