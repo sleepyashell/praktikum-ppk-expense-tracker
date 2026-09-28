@@ -9,6 +9,7 @@ import RecentTransactions, {
   TransactionItem,
 } from "@/components/RecentTransactions";
 import DashboardFilter from "@/components/DashboardFilter";
+import BudgetProgressBar from "@/components/BudgetProgressBar";
 
 export interface UserProfile {
   id?: string;
@@ -229,6 +230,15 @@ function DashboardContent({
         </div>
 
         {/* Komponen RecentTransactions menampilkan transaksi yang terfilter atau Empty State */}
+        {/* Indikator Visual Penggunaan Anggaran */}
+        <div className="mt-8">
+          <BudgetProgressBar
+            totalIncome={summary.totalIncome}
+            totalExpense={summary.totalExpense}
+          />
+        </div>
+
+        {/* Komponen RecentTransactions dengan jarak vertikal mt-12 (48px dalam 4px grid) */}
         <div className="mt-12">
           <RecentTransactions
             transactions={filteredTransactions}

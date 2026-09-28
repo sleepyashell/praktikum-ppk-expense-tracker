@@ -8,6 +8,7 @@ import MonthlyBudgetForm from "@/components/MonthlyBudgetForm";
 import SummaryCards from "@/components/SummaryCards";
 import RecentTransactions from "@/components/RecentTransactions";
 import DashboardFilter from "@/components/DashboardFilter";
+import BudgetProgressBar from "@/components/BudgetProgressBar";
 import { Plus } from "lucide-react";
 
 interface DashboardPageProps {
@@ -107,7 +108,14 @@ export default async function DashboardPage(props: DashboardPageProps) {
           totalExpense={totalExpense}
         />
 
+        {/* Anggaran Bulanan */}
         <MonthlyBudgetForm budget={monthlyBudget} />
+
+        {/* SRS-03: Indikator Visual Penggunaan Anggaran */}
+        <BudgetProgressBar
+          totalIncome={totalIncome}
+          totalExpense={totalExpense}
+        />
 
         {/* 5 Transaksi Terbaru */}
         {/* 5 Transaksi Terbaru (Filtered atau Empty State) */}
