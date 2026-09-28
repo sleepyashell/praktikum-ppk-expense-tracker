@@ -34,6 +34,54 @@ export default async function DashboardPage() {
 
   const currentBalance = totalIncome - totalExpense;
 
+  // Baca searchParams dari URL
+  const resolvedParams = await props.searchParams;
+  const now = new Date();
+  const defaultMonth = now.getMonth() + 1;
+  const defaultYear = now.getFullYear();
+
+  const selectedMonth = resolvedParams.month
+    ? parseInt(resolvedParams.month, 10) || defaultMonth
+    : defaultMonth;
+  const selectedYear = resolvedParams.year
+    ? parseInt(resolvedParams.year, 10) || defaultYear
+    : defaultYear;
+
+  // Filter transaksi berdasarkan bulan & tahun yang aktif dari filter
+  const filteredTransactions = transactions.filter((t) => {
+    const d = new Date(t.date);
+    return (
+      d.getMonth() + 1 === selectedMonth && d.getFullYear() === selectedYear
+    );
+  });
+
+  // Hitung ringkasan berdasarkan data terfilter
+  const totalIncome = filteredTransactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const totalExpense = filteredTransactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  // Pembuatan Label Bulan untuk UI
+  const currentDate = new Date(selectedYear, selectedMonth - 1);
+  const monthLabel = new Intl.DateTimeFormat("id-ID", {
+    timeZone: "Asia/Jakarta",
+    month: "long",
+    year: "numeric",
+  }).format(currentDate);
+
+  // Hitung total keseluruhan waktu (all time)
+  const allTimeIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const allTimeExpense = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+  const currentBalance = allTimeIncome - allTimeExpense;
+
   return (
     <div className="min-h-screen bg-background font-body p-6 sm:p-8">
       <div className="max-w-[1000px] mx-auto space-y-8">
@@ -47,7 +95,8 @@ export default async function DashboardPage() {
               Halo, {user.user_metadata?.full_name || user.email?.split("@")[0]}
             </h1>
             <p className="text-[14px] text-content-secondary mt-1">
-              Pantau arus kas, ringkasan saldo, dan mutasi transaksi keuangan Anda.
+              Pantau arus kas, ringkasan saldo, dan mutasi transaksi keuangan
+              Anda.
             </p>
           </div>
 
