@@ -9,6 +9,7 @@ import SummaryCards from "@/components/SummaryCards";
 import RecentTransactions from "@/components/RecentTransactions";
 import DashboardFilter from "@/components/DashboardFilter";
 import BudgetProgressBar from "@/components/BudgetProgressBar";
+import MonthlyBudgetSummary from "@/components/MonthlyBudgetSummary";
 import { Plus } from "lucide-react";
 
 interface DashboardPageProps {
@@ -34,6 +35,7 @@ export default async function DashboardPage(props: DashboardPageProps) {
   const defaultMonth = now.getMonth() + 1;
   const defaultYear = now.getFullYear();
 
+<<<<<<< HEAD
   const selectedMonth = resolvedParams.month
     ? parseInt(resolvedParams.month, 10) || defaultMonth
     : defaultMonth;
@@ -56,10 +58,42 @@ export default async function DashboardPage(props: DashboardPageProps) {
     .reduce((sum, t) => sum + t.amount, 0);
 
   const totalExpense = filteredTransactions
+=======
+  const currentDate = new Date();
+  const monthParts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Jakarta",
+    year: "numeric",
+    month: "2-digit",
+  }).formatToParts(currentDate);
+  const monthYear = monthParts.find((part) => part.type === "year")?.value;
+  const monthNumber = monthParts.find((part) => part.type === "month")?.value;
+  const monthKey = `${monthYear}-${monthNumber}`;
+  const monthLabel = new Intl.DateTimeFormat("id-ID", {
+    timeZone: "Asia/Jakarta",
+    month: "long",
+    year: "numeric",
+  }).format(currentDate);
+  const monthlyTransactions = transactions.filter((transaction) =>
+    transaction.date.startsWith(monthKey),
+  );
+
+  // Ringkasan pemasukan dan pengeluaran pada kartu mengikuti bulan berjalan.
+  const totalIncome = monthlyTransactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const totalExpense = monthlyTransactions
+>>>>>>> origin/feat/monthly-summary
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
 
-  const currentBalance = totalIncome - totalExpense;
+  const allTimeIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+  const allTimeExpense = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+  const currentBalance = allTimeIncome - allTimeExpense;
 
   return (
     <div className="min-h-screen bg-background font-body p-6 sm:p-8">
@@ -108,7 +142,16 @@ export default async function DashboardPage(props: DashboardPageProps) {
           totalExpense={totalExpense}
         />
 
+<<<<<<< HEAD
         {/* Anggaran Bulanan */}
+=======
+        <MonthlyBudgetSummary
+          spent={totalExpense}
+          budget={monthlyBudget}
+          monthLabel={monthLabel}
+        />
+
+>>>>>>> origin/feat/monthly-summary
         <MonthlyBudgetForm budget={monthlyBudget} />
 
         {/* SRS-03: Indikator Visual Penggunaan Anggaran */}
