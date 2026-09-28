@@ -5,6 +5,7 @@ import SummaryCards from "@/components/SummaryCards";
 import RecentTransactions, {
   TransactionItem,
 } from "@/components/RecentTransactions";
+import BudgetProgressBar from "@/components/BudgetProgressBar";
 
 export interface UserProfile {
   id?: string;
@@ -135,6 +136,14 @@ export default function Dashboard({
         <div className="mt-8">
           <SummaryCards
             currentBalance={summary.currentBalance}
+            totalIncome={summary.totalIncome}
+            totalExpense={summary.totalExpense}
+          />
+        </div>
+
+        {/* Indikator Visual Penggunaan Anggaran */}
+        <div className="mt-8">
+          <BudgetProgressBar
             totalIncome={summary.totalIncome}
             totalExpense={summary.totalExpense}
           />

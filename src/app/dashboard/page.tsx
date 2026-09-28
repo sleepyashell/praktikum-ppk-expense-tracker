@@ -5,7 +5,9 @@ import { logout } from "@/app/actions/auth";
 import { getTransactions } from "@/app/actions/transactions";
 import SummaryCards from "@/components/SummaryCards";
 import RecentTransactions from "@/components/RecentTransactions";
+import BudgetProgressBar from "@/components/BudgetProgressBar";
 import { ArrowRight, Plus } from "lucide-react";
+
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -71,6 +73,12 @@ export default async function DashboardPage() {
         {/* 3 Summary Cards: Saldo Saat Ini, Total Pemasukan, Total Pengeluaran */}
         <SummaryCards
           currentBalance={currentBalance}
+          totalIncome={totalIncome}
+          totalExpense={totalExpense}
+        />
+
+        {/*Indikator Visual Penggunaan Anggaran */}
+        <BudgetProgressBar
           totalIncome={totalIncome}
           totalExpense={totalExpense}
         />
