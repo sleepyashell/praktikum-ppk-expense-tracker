@@ -29,6 +29,7 @@ export default async function DashboardPage(props: DashboardPageProps) {
   // Ambil transaksi asli dari Supabase untuk user aktif
   const transactions = await getTransactions();
   const monthlyBudget = await getMonthlyBudget();
+  
   // Baca searchParams dari URL (Next.js 15/16 adalah async promise)
   const resolvedParams = await props.searchParams;
   const now = new Date();
@@ -42,54 +43,40 @@ export default async function DashboardPage(props: DashboardPageProps) {
     ? parseInt(resolvedParams.year, 10) || defaultYear
     : defaultYear;
 
-  // Ambil transaksi asli dari Supabase untuk user aktif
-  const allTransactions = await getTransactions();
-
-  // Filter transaksi berdasarkan bulan & tahun yang aktif
-  const filteredTransactions = allTransactions.filter((t) => {
+  // Filter transaksi berdasarkan bulan & tahun yang aktif dari filter
+  const filteredTransactions = transactions.filter((t) => {
     const d = new Date(t.date);
-    return d.getMonth() + 1 === selectedMonth && d.getFullYear() === selectedYear;
+    return (
+      d.getMonth() + 1 === selectedMonth && d.getFullYear() === selectedYear
+    );
   });
 
-  // Hitung ulang (recalculate) ringkasan finansial berdasarkan data terfilter
+  // Hitung ringkasan berdasarkan data terfilter (Pemasukan & Pengeluaran Bulan Ini)
   const totalIncome = filteredTransactions
     .filter((t) => t.type === "income")
     .reduce((sum, t) => sum + t.amount, 0);
 
   const totalExpense = filteredTransactions
-  const currentDate = new Date();
-  const monthParts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Jakarta",
-    year: "numeric",
-    month: "2-digit",
-  }).formatToParts(currentDate);
-  const monthYear = monthParts.find((part) => part.type === "year")?.value;
-  const monthNumber = monthParts.find((part) => part.type === "month")?.value;
-  const monthKey = `${monthYear}-${monthNumber}`;
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  // Pembuatan Label Bulan untuk UI
+  const currentDate = new Date(selectedYear, selectedMonth - 1);
   const monthLabel = new Intl.DateTimeFormat("id-ID", {
     timeZone: "Asia/Jakarta",
     month: "long",
     year: "numeric",
   }).format(currentDate);
-  const monthlyTransactions = transactions.filter((transaction) =>
-    transaction.date.startsWith(monthKey),
-  );
 
-  // Ringkasan pemasukan dan pengeluaran pada kartu mengikuti bulan berjalan.
-  const totalIncome = monthlyTransactions
-    .filter((t) => t.type === "income")
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const totalExpense = monthlyTransactions
-    .filter((t) => t.type === "expense")
-    .reduce((sum, t) => sum + t.amount, 0);
-
+  // Hitung total keseluruhan waktu (all time) untuk Saldo
   const allTimeIncome = transactions
     .filter((t) => t.type === "income")
     .reduce((sum, t) => sum + t.amount, 0);
+
   const allTimeExpense = transactions
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
+    
   const currentBalance = allTimeIncome - allTimeExpense;
 
   return (
@@ -105,7 +92,8 @@ export default async function DashboardPage(props: DashboardPageProps) {
               Halo, {user.user_metadata?.full_name || user.email?.split("@")[0]}
             </h1>
             <p className="text-[14px] text-content-secondary mt-1">
-              Pantau arus kas, ringkasan saldo, dan mutasi transaksi keuangan Anda.
+              Pantau arus kas, ringkasan saldo, dan mutasi transaksi keuangan
+              Anda.
             </p>
           </div>
 
@@ -154,7 +142,6 @@ export default async function DashboardPage(props: DashboardPageProps) {
           totalExpense={totalExpense}
         />
 
-        {/* 5 Transaksi Terbaru */}
         {/* 5 Transaksi Terbaru (Filtered atau Empty State) */}
         <RecentTransactions
           transactions={filteredTransactions}
