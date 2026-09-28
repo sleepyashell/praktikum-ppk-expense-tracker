@@ -3,11 +3,12 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { logout } from "@/app/actions/auth";
 import { getTransactions } from "@/app/actions/transactions";
+import { getMonthlyBudget } from "@/app/actions/budget";
+import MonthlyBudgetForm from "@/components/MonthlyBudgetForm";
 import SummaryCards from "@/components/SummaryCards";
 import RecentTransactions from "@/components/RecentTransactions";
 import BudgetProgressBar from "@/components/BudgetProgressBar";
-import { ArrowRight, Plus } from "lucide-react";
-
+import { Plus } from "lucide-react";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -21,6 +22,7 @@ export default async function DashboardPage() {
 
   // Ambil transaksi asli dari Supabase untuk user aktif
   const transactions = await getTransactions();
+  const monthlyBudget = await getMonthlyBudget();
 
   // Hitung ringkasan finansial
   const totalIncome = transactions
@@ -77,7 +79,10 @@ export default async function DashboardPage() {
           totalExpense={totalExpense}
         />
 
-        {/*Indikator Visual Penggunaan Anggaran */}
+        {/* Anggaran Bulanan */}
+        <MonthlyBudgetForm budget={monthlyBudget} />
+
+        {/* SRS-03: Indikator Visual Penggunaan Anggaran */}
         <BudgetProgressBar
           totalIncome={totalIncome}
           totalExpense={totalExpense}
