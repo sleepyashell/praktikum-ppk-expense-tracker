@@ -5,9 +5,14 @@ import { logout } from "@/app/actions/auth";
 import { getTransactions } from "@/app/actions/transactions";
 import SummaryCards from "@/components/SummaryCards";
 import RecentTransactions from "@/components/RecentTransactions";
-import { ArrowRight, Plus } from "lucide-react";
+import DashboardFilter from "@/components/DashboardFilter";
+import { Plus } from "lucide-react";
 
-export default async function DashboardPage() {
+interface DashboardPageProps {
+  searchParams: Promise<{ month?: string; year?: string }>;
+}
+
+export default async function DashboardPage(props: DashboardPageProps) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -17,15 +22,34 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  // Ambil transaksi asli dari Supabase untuk user aktif
-  const transactions = await getTransactions();
+  // Baca searchParams dari URL (Next.js 15/16 adalah async promise)
+  const resolvedParams = await props.searchParams;
+  const now = new Date();
+  const defaultMonth = now.getMonth() + 1;
+  const defaultYear = now.getFullYear();
 
-  // Hitung ringkasan finansial
-  const totalIncome = transactions
+  const selectedMonth = resolvedParams.month
+    ? parseInt(resolvedParams.month, 10) || defaultMonth
+    : defaultMonth;
+  const selectedYear = resolvedParams.year
+    ? parseInt(resolvedParams.year, 10) || defaultYear
+    : defaultYear;
+
+  // Ambil transaksi asli dari Supabase untuk user aktif
+  const allTransactions = await getTransactions();
+
+  // Filter transaksi berdasarkan bulan & tahun yang aktif
+  const filteredTransactions = allTransactions.filter((t) => {
+    const d = new Date(t.date);
+    return d.getMonth() + 1 === selectedMonth && d.getFullYear() === selectedYear;
+  });
+
+  // Hitung ulang (recalculate) ringkasan finansial berdasarkan data terfilter
+  const totalIncome = filteredTransactions
     .filter((t) => t.type === "income")
     .reduce((sum, t) => sum + t.amount, 0);
 
-  const totalExpense = transactions
+  const totalExpense = filteredTransactions
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
 
@@ -35,7 +59,7 @@ export default async function DashboardPage() {
     <div className="min-h-screen bg-background font-body p-6 sm:p-8">
       <div className="max-w-[1000px] mx-auto space-y-8">
         {/* Header Dashboard & User Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-surface border border-border rounded-xl p-6 shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 bg-surface border border-border rounded-xl p-6 shadow-sm">
           <div>
             <span className="text-[12px] font-semibold tracking-wider uppercase text-content-muted">
               Ikhtisar Keuangan Pribadi
@@ -48,7 +72,10 @@ export default async function DashboardPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex flex-wrap items-end gap-3 shrink-0">
+            {/* Filter Dropdown Bulan & Tahun */}
+            <DashboardFilter />
+
             <Link
               href="/dashboard/transactions"
               className="inline-flex items-center gap-2 bg-[#6366F1] hover:bg-[#4F46E5] text-white px-4 py-2.5 rounded-md font-medium text-sm transition-all shadow-sm hover:-translate-y-[1px]"
@@ -75,9 +102,9 @@ export default async function DashboardPage() {
           totalExpense={totalExpense}
         />
 
-        {/* 5 Transaksi Terbaru */}
+        {/* 5 Transaksi Terbaru (Filtered atau Empty State) */}
         <RecentTransactions
-          transactions={transactions}
+          transactions={filteredTransactions}
           viewAllHref="/dashboard/transactions"
         />
       </div>
