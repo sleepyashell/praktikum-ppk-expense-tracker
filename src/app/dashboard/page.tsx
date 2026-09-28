@@ -35,7 +35,6 @@ export default async function DashboardPage(props: DashboardPageProps) {
   const defaultMonth = now.getMonth() + 1;
   const defaultYear = now.getFullYear();
 
-<<<<<<< HEAD
   const selectedMonth = resolvedParams.month
     ? parseInt(resolvedParams.month, 10) || defaultMonth
     : defaultMonth;
@@ -58,7 +57,6 @@ export default async function DashboardPage(props: DashboardPageProps) {
     .reduce((sum, t) => sum + t.amount, 0);
 
   const totalExpense = filteredTransactions
-=======
   const currentDate = new Date();
   const monthParts = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Jakarta",
@@ -83,7 +81,6 @@ export default async function DashboardPage(props: DashboardPageProps) {
     .reduce((sum, t) => sum + t.amount, 0);
 
   const totalExpense = monthlyTransactions
->>>>>>> origin/feat/monthly-summary
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
 
@@ -142,16 +139,13 @@ export default async function DashboardPage(props: DashboardPageProps) {
           totalExpense={totalExpense}
         />
 
-<<<<<<< HEAD
         {/* Anggaran Bulanan */}
-=======
         <MonthlyBudgetSummary
           spent={totalExpense}
           budget={monthlyBudget}
           monthLabel={monthLabel}
         />
 
->>>>>>> origin/feat/monthly-summary
         <MonthlyBudgetForm budget={monthlyBudget} />
 
         {/* SRS-03: Indikator Visual Penggunaan Anggaran */}
