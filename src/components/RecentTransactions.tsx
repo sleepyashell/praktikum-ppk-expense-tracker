@@ -106,7 +106,7 @@ export default function RecentTransactions({
       <div className="divide-y divide-[#E8E8EC] dark:divide-[#26262A]">
         {transactions.length === 0 ? (
           <div className="py-12 text-center text-[#9C9C9C] font-['DM_Sans',sans-serif] text-[14px]">
-            Belum ada catatan transaksi terbaru.
+            Tidak ada data transaksi untuk periode ini
           </div>
         ) : (
           transactions.slice(0, 5).map((item) => {
